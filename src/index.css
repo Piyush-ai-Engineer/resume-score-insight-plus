@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -86,19 +87,19 @@
 }
 
 .score-badge {
-  @apply inline-flex items-center justify-center px-3 py-1 text-sm font-medium rounded-full;
+  @apply inline-flex items-center justify-center aspect-square w-14 h-14 text-base font-bold rounded-full shadow-md;
 }
 
 .score-badge-low {
-  @apply bg-danger text-white;
+  @apply bg-gradient-to-br from-danger to-red-600 text-white;
 }
 
 .score-badge-medium {
-  @apply bg-warning text-white;
+  @apply bg-gradient-to-br from-warning to-amber-500 text-white;
 }
 
 .score-badge-high {
-  @apply bg-success text-white;
+  @apply bg-gradient-to-br from-success to-emerald-500 text-white;
 }
 
 .animate-in {
@@ -160,5 +161,30 @@
 @keyframes shine {
   100% {
     transform: translateX(100%);
+  }
+}
+
+/* Score badge animation */
+.score-badge {
+  @apply relative overflow-hidden;
+}
+
+.score-badge::after {
+  content: '';
+  @apply absolute inset-0 rounded-full bg-white opacity-20;
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
   }
 }
