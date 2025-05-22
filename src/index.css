@@ -188,3 +188,9 @@
     opacity: 0;
   }
 }
+
+/* Insight tile styles */
+.insight-tile {
+  @apply bg-secondary/20 p-4 rounded-lg border border-border/30 transition-all duration-300;
+  @apply hover:shadow-lg hover:bg-secondary/30 hover:scale-[1.02] hover:border-primary/20;
+}

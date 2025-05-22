@@ -27,8 +27,8 @@ const ResumeAnalysis: React.FC<ResumeAnalysisProps> = ({ result }) => {
         <CardHeader>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <CardTitle className="text-2xl font-bold">Resume Analysis</CardTitle>
-            <div className={`score-badge score-badge-${scoreType} text-lg font-bold`}>
-              {totalScore.toFixed(0)}/100
+            <div className={`score-badge score-badge-${scoreType}`}>
+              {totalScore.toFixed(0)}
             </div>
           </div>
         </CardHeader>
@@ -39,19 +39,19 @@ const ResumeAnalysis: React.FC<ResumeAnalysisProps> = ({ result }) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="flex flex-col items-center p-4 bg-secondary rounded-lg">
               <span className="text-sm font-medium text-muted-foreground">Experience</span>
-              <span className="text-2xl font-bold mt-1">{experience.score}/40</span>
+              <span className="text-2xl font-bold mt-1">{experience.score}</span>
             </div>
             <div className="flex flex-col items-center p-4 bg-secondary rounded-lg">
               <span className="text-sm font-medium text-muted-foreground">Projects</span>
-              <span className="text-2xl font-bold mt-1">{projects.score}/25</span>
+              <span className="text-2xl font-bold mt-1">{projects.score}</span>
             </div>
             <div className="flex flex-col items-center p-4 bg-secondary rounded-lg">
               <span className="text-sm font-medium text-muted-foreground">Skills</span>
-              <span className="text-2xl font-bold mt-1">{skills.score}/20</span>
+              <span className="text-2xl font-bold mt-1">{skills.score}</span>
             </div>
             <div className="flex flex-col items-center p-4 bg-secondary rounded-lg">
               <span className="text-sm font-medium text-muted-foreground">Education</span>
-              <span className="text-2xl font-bold mt-1">{education.score}/15</span>
+              <span className="text-2xl font-bold mt-1">{education.score}</span>
             </div>
           </div>
         </CardContent>
@@ -60,25 +60,25 @@ const ResumeAnalysis: React.FC<ResumeAnalysisProps> = ({ result }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ScoreCard 
           title="Experience" 
-          score={experience.score / 0.4} 
+          score={experience.score} 
           type={getScoreType(experience.score / 0.4)}
           description={feedback.experience}
         />
         <ScoreCard 
           title="Projects" 
-          score={projects.score / 0.25} 
+          score={projects.score} 
           type={getScoreType(projects.score / 0.25)}
           description={feedback.projects}
         />
         <ScoreCard 
           title="Skills" 
-          score={skills.score / 0.2} 
+          score={skills.score} 
           type={getScoreType(skills.score / 0.2)}
           description={feedback.skills}
         />
         <ScoreCard 
           title="Education" 
-          score={education.score / 0.15} 
+          score={education.score} 
           type={getScoreType(education.score / 0.15)}
           description={feedback.education}
         />
@@ -90,54 +90,53 @@ const ResumeAnalysis: React.FC<ResumeAnalysisProps> = ({ result }) => {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Experience</h3>
-              <p>Years of Experience: {experience.years}</p>
-              <Separator className="my-4" />
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Notable Projects</h3>
-              {projects.notable.length > 0 ? (
-                <ul className="list-disc pl-5 space-y-1">
-                  {projects.notable.map((project, index) => (
-                    <li key={index}>{project}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No notable projects detected.</p>
-              )}
-              <Separator className="my-4" />
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Skills</h3>
-              <div className="space-y-3">
-                <div>
-                  <h4 className="text-md font-medium mb-1">Technical Skills</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {skills.technical.map((skill, index) => (
-                      <Badge key={index} variant="secondary">{skill}</Badge>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="insight-tile">
+                <h3 className="text-lg font-semibold mb-2">Experience</h3>
+                <p>Years of Experience: {experience.years}</p>
+              </div>
+              
+              <div className="insight-tile">
+                <h3 className="text-lg font-semibold mb-2">Education</h3>
+                <p>Education Level: {education.level}</p>
+              </div>
+              
+              <div className="insight-tile md:col-span-2">
+                <h3 className="text-lg font-semibold mb-2">Notable Projects</h3>
+                {projects.notable.length > 0 ? (
+                  <ul className="list-disc pl-5 space-y-1">
+                    {projects.notable.map((project, index) => (
+                      <li key={index}>{project}</li>
                     ))}
-                    {skills.technical.length === 0 && <p>No technical skills detected.</p>}
+                  </ul>
+                ) : (
+                  <p>No notable projects detected.</p>
+                )}
+              </div>
+              
+              <div className="insight-tile md:col-span-2">
+                <h3 className="text-lg font-semibold mb-2">Skills</h3>
+                <div className="space-y-3">
+                  <div>
+                    <h4 className="text-md font-medium mb-1">Technical Skills</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {skills.technical.map((skill, index) => (
+                        <Badge key={index} variant="secondary">{skill}</Badge>
+                      ))}
+                      {skills.technical.length === 0 && <p>No technical skills detected.</p>}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <h4 className="text-md font-medium mb-1">Soft Skills</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {skills.soft.map((skill, index) => (
-                      <Badge key={index} variant="outline">{skill}</Badge>
-                    ))}
-                    {skills.soft.length === 0 && <p>No soft skills detected.</p>}
+                  <div>
+                    <h4 className="text-md font-medium mb-1">Soft Skills</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {skills.soft.map((skill, index) => (
+                        <Badge key={index} variant="outline">{skill}</Badge>
+                      ))}
+                      {skills.soft.length === 0 && <p>No soft skills detected.</p>}
+                    </div>
                   </div>
                 </div>
               </div>
-              <Separator className="my-4" />
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Education</h3>
-              <p>Education Level: {education.level}</p>
             </div>
           </div>
         </CardContent>

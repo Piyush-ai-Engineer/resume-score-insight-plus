@@ -2,7 +2,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { ScoreBadgeType } from '@/types';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Star, Check, Info, X } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 interface ScoreCardProps {
@@ -26,6 +26,12 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
     low: 'score-badge-low',
     medium: 'score-badge-medium',
     high: 'score-badge-high',
+  };
+
+  // Helper function to get icon based on suggestion type
+  const getSuggestionIcon = (index: number) => {
+    const icons = [<Check key="check" className="text-green-500" size={16} />, <Info key="info" className="text-blue-500" size={16} />, <Star key="star" className="text-amber-500" size={16} />];
+    return icons[index % icons.length];
   };
 
   const getSuggestions = () => {
@@ -119,8 +125,8 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
     >
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
         <h3 className="text-xl font-bold">{title}</h3>
-        <div className={cn('score-badge mt-2 md:mt-0 animate-pulse', badgeClasses[type])}>
-          {score.toFixed(0)}/100
+        <div className={cn('score-badge mt-2 md:mt-0', badgeClasses[type])}>
+          {score.toFixed(0)}
         </div>
       </div>
       <p className="text-muted-foreground">{description}</p>
@@ -134,9 +140,14 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
         <div className="mt-4 animate-fade-in">
           <Separator className="mb-3" />
           <h4 className="font-medium mb-2">Suggestions to improve:</h4>
-          <ul className="list-disc pl-5 space-y-2">
+          <ul className="space-y-3">
             {suggestions.map((suggestion, index) => (
-              <li key={index} className="text-sm">{suggestion}</li>
+              <li key={index} className="flex items-start gap-2 p-2 bg-secondary/50 rounded-md hover:bg-secondary transition-colors">
+                <div className="mt-0.5 shrink-0">
+                  {getSuggestionIcon(index)}
+                </div>
+                <span>{suggestion}</span>
+              </li>
             ))}
           </ul>
         </div>
