@@ -7,7 +7,7 @@ import Logo from '@/components/Logo';
 import { ResumeAnalysisResult } from '@/types';
 import { analyzeResume } from '@/utils/resumeAnalyzer';
 import { toast } from 'sonner';
-import { FileText } from 'lucide-react';
+import { Star } from 'lucide-react';
 
 const Index = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -50,7 +50,7 @@ const Index = () => {
               <div className="relative w-16 h-16">
                 <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping"></div>
                 <div className="relative flex items-center justify-center w-16 h-16 bg-primary rounded-full">
-                  <FileText className="text-primary-foreground" size={32} />
+                  <Star className="text-primary-foreground" size={32} />
                 </div>
               </div>
               <div className="text-xl font-medium">Analyzing your resume...</div>
