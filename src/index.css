@@ -194,3 +194,50 @@
   @apply bg-secondary/20 p-4 rounded-lg border border-border/30 transition-all duration-300;
   @apply hover:shadow-lg hover:bg-secondary/30 hover:scale-[1.02] hover:border-primary/20;
 }
+
+/* New gradient tile styles */
+.gradient-tile {
+  @apply relative overflow-hidden rounded-lg border border-border/30 p-4 transition-all duration-300;
+  @apply hover:shadow-lg hover:scale-[1.02] hover:border-primary/20;
+  @apply before:absolute before:inset-0 before:opacity-75 before:z-0 before:rounded-lg;
+  @apply flex flex-col;
+}
+
+.gradient-tile > * {
+  @apply relative z-10;
+}
+
+.gradient-tile-blue {
+  @apply before:bg-gradient-to-br before:from-blue-500/20 before:to-indigo-600/20;
+  @apply hover:before:opacity-100;
+}
+
+.gradient-tile-purple {
+  @apply before:bg-gradient-to-br before:from-purple-500/20 before:to-pink-600/20;
+  @apply hover:before:opacity-100;
+}
+
+.gradient-tile-green {
+  @apply before:bg-gradient-to-br before:from-green-500/20 before:to-emerald-600/20;
+  @apply hover:before:opacity-100;
+}
+
+.gradient-tile-amber {
+  @apply before:bg-gradient-to-br before:from-amber-500/20 before:to-orange-600/20;
+  @apply hover:before:opacity-100;
+}
+
+.summary-tile {
+  @apply before:bg-gradient-to-br before:from-primary/10 before:to-secondary/20;
+  @apply hover:before:opacity-100;
+  @apply flex flex-col items-center justify-center;
+}
+
+/* Score section styles */
+.score-section {
+  @apply grid grid-cols-2 md:grid-cols-4 gap-4;
+}
+
+.score-box {
+  @apply gradient-tile summary-tile;
+}

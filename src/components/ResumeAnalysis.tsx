@@ -36,20 +36,20 @@ const ResumeAnalysis: React.FC<ResumeAnalysisProps> = ({ result }) => {
           <p className="text-lg mb-4">{feedback.overall}</p>
           
           <h3 className="text-xl font-semibold mb-2">Summary</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div className="flex flex-col items-center p-4 bg-secondary rounded-lg">
+          <div className="score-section mb-6">
+            <div className="score-box">
               <span className="text-sm font-medium text-muted-foreground">Experience</span>
               <span className="text-2xl font-bold mt-1">{experience.score}</span>
             </div>
-            <div className="flex flex-col items-center p-4 bg-secondary rounded-lg">
+            <div className="score-box">
               <span className="text-sm font-medium text-muted-foreground">Projects</span>
               <span className="text-2xl font-bold mt-1">{projects.score}</span>
             </div>
-            <div className="flex flex-col items-center p-4 bg-secondary rounded-lg">
+            <div className="score-box">
               <span className="text-sm font-medium text-muted-foreground">Skills</span>
               <span className="text-2xl font-bold mt-1">{skills.score}</span>
             </div>
-            <div className="flex flex-col items-center p-4 bg-secondary rounded-lg">
+            <div className="score-box">
               <span className="text-sm font-medium text-muted-foreground">Education</span>
               <span className="text-2xl font-bold mt-1">{education.score}</span>
             </div>
@@ -91,17 +91,17 @@ const ResumeAnalysis: React.FC<ResumeAnalysisProps> = ({ result }) => {
         <CardContent>
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="insight-tile">
+              <div className="gradient-tile gradient-tile-blue">
                 <h3 className="text-lg font-semibold mb-2">Experience</h3>
                 <p>Years of Experience: {experience.years}</p>
               </div>
               
-              <div className="insight-tile">
+              <div className="gradient-tile gradient-tile-purple">
                 <h3 className="text-lg font-semibold mb-2">Education</h3>
                 <p>Education Level: {education.level}</p>
               </div>
               
-              <div className="insight-tile md:col-span-2">
+              <div className="gradient-tile gradient-tile-green md:col-span-2">
                 <h3 className="text-lg font-semibold mb-2">Notable Projects</h3>
                 {projects.notable.length > 0 ? (
                   <ul className="list-disc pl-5 space-y-1">
@@ -114,7 +114,7 @@ const ResumeAnalysis: React.FC<ResumeAnalysisProps> = ({ result }) => {
                 )}
               </div>
               
-              <div className="insight-tile md:col-span-2">
+              <div className="gradient-tile gradient-tile-amber md:col-span-2">
                 <h3 className="text-lg font-semibold mb-2">Skills</h3>
                 <div className="space-y-3">
                   <div>
