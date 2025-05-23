@@ -29,3 +29,18 @@ export interface ResumeAnalysisResult {
 }
 
 export type ScoreBadgeType = 'low' | 'medium' | 'high';
+
+export interface EvaluationResult {
+  eligible: boolean;
+  experienceMatch: boolean;
+  requiredYears: number;
+  candidateYears: number;
+  educationMatch: boolean;
+  requiredEducation: string;
+  candidateEducation: string;
+  skillsMatch: boolean;
+  requiredSkills: string[];
+  matchedSkills: string[];
+  missingSkills: string[];
+  suggestions: string[];
+}

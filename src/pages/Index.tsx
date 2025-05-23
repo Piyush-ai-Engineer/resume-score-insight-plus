@@ -4,16 +4,22 @@ import ResumeInput from '@/components/ResumeInput';
 import ResumeAnalysis from '@/components/ResumeAnalysis';
 import ThemeToggle from '@/components/ThemeToggle';
 import Logo from '@/components/Logo';
-import { ResumeAnalysisResult } from '@/types';
+import { ResumeAnalysisResult, EvaluationResult } from '@/types';
 import { analyzeResume } from '@/utils/resumeAnalyzer';
+import { evaluateCandidate } from '@/utils/hrEvaluator';
 import { toast } from 'sonner';
-import { Star } from 'lucide-react';
+import { Star, FileSearch } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import HREvaluationModal, { JobRequirements } from '@/components/HREvaluationModal';
 
 const Index = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<ResumeAnalysisResult | null>(null);
+  const [resumeText, setResumeText] = useState<string>('');
+  const [isHREvaluationOpen, setIsHREvaluationOpen] = useState(false);
 
   const handleAnalyzeResume = async (text: string) => {
+    setResumeText(text);
     setIsAnalyzing(true);
     try {
       const result = await analyzeResume(text);
@@ -33,6 +39,12 @@ const Index = () => {
     } finally {
       setIsAnalyzing(false);
     }
+  };
+
+  const handleEvaluateCandidate = async (requirements: JobRequirements): Promise<EvaluationResult> => {
+    // Add a small delay to simulate processing
+    await new Promise(resolve => setTimeout(resolve, 1200));
+    return evaluateCandidate(resumeText, requirements);
   };
 
   return (
@@ -59,9 +71,28 @@ const Index = () => {
         )}
         
         {!isAnalyzing && analysisResult && (
-          <ResumeAnalysis result={analysisResult} />
+          <>
+            <div className="flex justify-end mb-4">
+              <Button 
+                onClick={() => setIsHREvaluationOpen(true)}
+                className="flex items-center gap-2 hover:shadow-md transition-all duration-200 shine-effect"
+                disabled={!resumeText}
+              >
+                <FileSearch size={18} />
+                Evaluate for Job Role
+              </Button>
+            </div>
+            <ResumeAnalysis result={analysisResult} />
+          </>
         )}
       </div>
+      
+      <HREvaluationModal 
+        open={isHREvaluationOpen}
+        onOpenChange={setIsHREvaluationOpen}
+        resumeText={resumeText}
+        onEvaluate={handleEvaluateCandidate}
+      />
       
       <footer className="mt-12 text-center text-sm text-muted-foreground">
         <p>Resume Analyzer © {new Date().getFullYear()}</p>

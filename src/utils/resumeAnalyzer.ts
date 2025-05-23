@@ -2,6 +2,86 @@
 import { ResumeAnalysisResult } from '@/types';
 import { pipeline } from '@huggingface/transformers';
 
+// Export these functions so they can be reused by hrEvaluator
+export const extractYearsOfExperience = (text: string): number => {
+  // Basic regex to find patterns like "X years of experience" or "X+ years"
+  const experiencePatterns = [
+    /(\d+)(?:\+)?\s*(?:years|yrs)(?:\s+of)?\s+(?:experience|work)/i,
+    /experience(?:\s+of)?\s+(\d+)(?:\+)?\s*(?:years|yrs)/i,
+    /worked\s+(?:for\s+)?(\d+)(?:\+)?\s*(?:years|yrs)/i
+  ];
+  
+  for (const pattern of experiencePatterns) {
+    const match = text.match(pattern);
+    if (match && match[1]) {
+      return parseInt(match[1], 10);
+    }
+  }
+  
+  // If no explicit mention, try to estimate from dates
+  const years = estimateExperienceFromDates(text);
+  return years > 0 ? years : 1; // Default to 1 if we can't detect
+};
+
+export const extractEducationLevel = (text: string): string => {
+  const educationPatterns = {
+    'PhD': /(ph\.?d|doctor of philosophy|doctoral)/i,
+    'Masters': /(master'?s|mba|m\.s\.|m\.eng|master of)/i,
+    'Bachelors': /(bachelor'?s|b\.s\.|b\.a\.|bachelor of)/i,
+    'Associates': /(associate'?s|a\.s\.|a\.a\.|associate of)/i,
+    'High School': /(high school|secondary school|diploma|ged)/i
+  };
+  
+  const lowercaseText = text.toLowerCase();
+  
+  for (const [level, pattern] of Object.entries(educationPatterns)) {
+    if (pattern.test(lowercaseText)) {
+      return level;
+    }
+  }
+  
+  return 'Not Specified';
+};
+
+export const extractSkills = (text: string): { technical: string[], soft: string[] } => {
+  // Common technical skills
+  const technicalSkillsKeywords = [
+    'javascript', 'python', 'java', 'c++', 'c#', 'ruby', 'php', 'typescript',
+    'html', 'css', 'react', 'angular', 'vue', 'node', 'express', 'django', 'flask',
+    'mongodb', 'postgresql', 'mysql', 'sql', 'nosql', 'aws', 'azure', 'gcp',
+    'docker', 'kubernetes', 'ci/cd', 'git', 'agile', 'scrum', 'rest api',
+    'graphql', 'machine learning', 'artificial intelligence', 'data science',
+    'react native', 'flutter', 'swift', 'kotlin', 'ios', 'android'
+  ];
+
+  // Common soft skills
+  const softSkillsKeywords = [
+    'communication', 'teamwork', 'problem solving', 'problem-solving',
+    'leadership', 'time management', 'creativity', 'adaptability', 'flexibility',
+    'critical thinking', 'interpersonal', 'collaboration', 'organization',
+    'presentation', 'negotiation', 'conflict resolution', 'decision making',
+    'emotional intelligence', 'empathy', 'attention to detail', 'multitasking'
+  ];
+
+  const technical = [];
+  const soft = [];
+  const lowercaseText = text.toLowerCase();
+  
+  for (const skill of technicalSkillsKeywords) {
+    if (lowercaseText.includes(skill)) {
+      technical.push(skill);
+    }
+  }
+  
+  for (const skill of softSkillsKeywords) {
+    if (lowercaseText.includes(skill)) {
+      soft.push(skill);
+    }
+  }
+  
+  return { technical, soft };
+};
+
 // Mock NLP processing for demo
 // In a real application, we would use proper NLP models
 export const analyzeResume = async (text: string): Promise<ResumeAnalysisResult> => {
